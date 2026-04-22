@@ -17,7 +17,7 @@ export default function Dashboard() {
         const [h, t, b] = await Promise.all([
           authFetch('/api/auth/me/history').then(r=>r.json()),
           authFetch('/api/auth/me/transactions').then(r=>r.json()),
-          fetch('/api/payment/balance').then(r=>r.json()),
+          fetch(`${import.meta.env.VITE_API_URL || ''}/api/payment/balance`).then(r=>r.json()),
         ]);
         setHistory(h.attempts||[]);
         setTxs(t.transactions||[]);
