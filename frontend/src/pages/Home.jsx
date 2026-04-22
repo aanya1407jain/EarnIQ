@@ -8,7 +8,7 @@ export default function Home() {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
-    fetch('/api/stats').then(r => r.json()).then(setStats).catch(() => {});
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/stats`).then(r => r.json()).then(setStats).catch(() => {});
   }, []);
 
   const features = [
