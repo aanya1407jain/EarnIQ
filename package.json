@@ -1,0 +1,14 @@
+{
+  "name": "earniq",
+  "version": "2.0.0",
+  "description": "AI Tutor that pays students in USDC via Locus — Paygentic Hackathon #2",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "cd frontend && npm run dev",
+    "install:all": "npm install && cd backend && npm install && cd ../frontend && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
