@@ -11,7 +11,7 @@ export default function Leaderboard() {
 
   useEffect(() => {
     setLoading(true);
-    fetch(`/api/leaderboard?type=${type}`)
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/leaderboard?type=${type}`)
       .then(r=>r.json())
       .then(d=>setBoard(d.leaderboard||[]))
       .catch(()=>{})
