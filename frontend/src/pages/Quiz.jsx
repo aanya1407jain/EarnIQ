@@ -26,8 +26,8 @@ export default function Quiz() {
   });
 
   useEffect(() => {
-    fetch('/api/payment/config').then(r=>r.json()).then(setConfig).catch(()=>{});
-    fetch('/api/quiz/questions').then(r=>r.json()).then(d=>setBankQs(d.questions||[])).catch(()=>{});
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/payment/config`).then(r=>r.json()).then(setConfig).catch(()=>{});
+    fetch(`${import.meta.env.VITE_API_URL || ''}/api/quiz/questions`).then(r=>r.json()).then(d=>setBankQs(d.questions||[])).catch(()=>{});
   }, []);
 
   // Timer
