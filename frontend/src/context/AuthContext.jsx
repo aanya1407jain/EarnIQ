@@ -4,16 +4,16 @@ const AuthCtx = createContext(null);
 export const useAuth = () => useContext(AuthCtx);
 
 const TOKEN_KEY = 'earniq_token';
+const API = import.meta.env.VITE_API_URL || '';
 
 export function AuthProvider({ children }) {
   const [user, setUser]       = useState(null);
   const [token, setToken]     = useState(() => localStorage.getItem(TOKEN_KEY));
   const [loading, setLoading] = useState(true);
 
-  // Restore session on mount
   useEffect(() => {
     if (token) {
-      fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+      fetch(`${API}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
         .then(r => r.ok ? r.json() : null)
         .then(data => { if (data?.user) setUser(data.user); else clearSession(); })
         .catch(clearSession)
@@ -30,7 +30,7 @@ export function AuthProvider({ children }) {
   }
 
   async function register(username, email, password, walletAddress) {
-    const r = await fetch('/api/auth/register', {
+    const r = await fetch(`${API}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, password, walletAddress }),
@@ -44,7 +44,7 @@ export function AuthProvider({ children }) {
   }
 
   async function login(emailOrUsername, password) {
-    const r = await fetch('/api/auth/login', {
+    const r = await fetch(`${API}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ emailOrUsername, password }),
@@ -61,12 +61,12 @@ export function AuthProvider({ children }) {
 
   async function refreshUser() {
     if (!token) return;
-    const r = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } });
+    const r = await fetch(`${API}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
     if (r.ok) { const d = await r.json(); setUser(d.user); }
   }
 
   async function authFetch(url, options = {}) {
-    return fetch(url, {
+    return fetch(`${API}${url}`, {
       ...options,
       headers: { ...(options.headers || {}), Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
     });
